@@ -129,7 +129,7 @@ Snake.prototype = {
     var headx = this.snakeGrid[0][0],
       heady = this.snakeGrid[0][1],
       temp = this.snakeGrid[this.snakeGrid.length - 1],
-      isEnd = false,
+      isEnd = 0,
       msg = "";
     // 38 shang 40 xia 39 you  37 zuo
     switch (this.derectkey) {
@@ -222,10 +222,7 @@ Snake.prototype = {
 
     // 自己碰到自己
     if (this.snakeGrid.length > 8) {
-      var a = this.snakeGrid.filter(
-        m => !this.snakeGrid[0] && m === this.snakeGrid[0]
-      );
-      console.log(a.length, "length");
+      isEnd = this.snakeGrid.filter(m => m === this.snakeGrid[0]).length;
     }
     // game over
     if (isEnd) {
