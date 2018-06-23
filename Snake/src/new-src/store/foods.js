@@ -5,8 +5,9 @@ class Foods {
   @observable left = 40;
   @action.bound
   randoms() {
-    this.top = 10 * Math.floor(Math.random() * 40);
-    this.left = 10 * Math.floor(Math.random() * 40);
+    this.top = 10 * Math.floor(Math.random() * (39 - 1) + 1);
+    this.left = 10 * Math.floor(Math.random() * (39 - 1) + 1);
+    console.log(this.top, this.left, "left top");
   }
 }
 

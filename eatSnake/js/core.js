@@ -48,6 +48,7 @@ Snake.prototype = {
     this.snakeGrid.push([1, 3]);
     this.snakeGrid.push([1, 2]);
     this.snakeGrid.push([1, 1]);
+    console.log(this.snakeGrid, "create");
     this.painSnake();
     // snake header
     this.Grid[this.snakeGrid[0][0]][this.snakeGrid[0][1]].className =
@@ -70,13 +71,14 @@ Snake.prototype = {
     this.Grid[this.foodGrid[0]][this.foodGrid[1]].className = "food";
   },
   randomPoint(initX, initY, endX, endY) {
-    let initx = initX || 0;
-    let inity = initY || 0;
-    let endx = endX || this.width;
-    let endy = endY || this.height;
+    let initx = initX || 1;
+    let inity = initY || 1;
+    let endx = endX || this.width - 1;
+    let endy = endY || this.height - 1;
     var p = [];
     p[0] = Math.floor(Math.random() * (endx - initx) + initx);
     p[1] = Math.floor(Math.random() * (endy - inity) + inity);
+    console.log(p, "p");
     return p;
   },
   pointInSnake(foodGrid) {
@@ -129,6 +131,7 @@ Snake.prototype = {
       temp = this.snakeGrid[this.snakeGrid.length - 1],
       isEnd = false,
       msg = "";
+    // 38 shang 40 xia 39 you  37 zuo
     switch (this.derectkey) {
       case 37:
         if (this.goY != 1) {
@@ -180,12 +183,53 @@ Snake.prototype = {
     }
     this.snakeGrid[0] = [headx, heady];
     // isWell
-    if (this.isWall(this.snakeGrid[0])) {
-      isEnd = true;
+    // if (this.isWall(this.snakeGrid[0])) {
+    //   isEnd = true;
+    // }
+    if (this.snakeGrid[0][1] === this.width) {
+      this.snakeGrid.forEach(m => {
+        if (m[1] === 20) {
+          m[1] = 0;
+        }
+      });
+      this.Grid[temp[0]][temp[1]].className = "notsnake";
+      return;
+    } else if (this.snakeGrid[0][1] === 0) {
+      this.snakeGrid.forEach(m => {
+        if (m[1] === 0) {
+          m[1] = 19;
+        }
+      });
+      this.Grid[temp[0]][temp[1]].className = "notsnake";
+      return;
+    } else if (this.snakeGrid[0][0] === 0) {
+      this.snakeGrid.forEach(m => {
+        if (m[0] === 0) {
+          m[0] = 19;
+        }
+      });
+      this.Grid[temp[0]][temp[1]].className = "notsnake";
+      return;
+    } else if (this.snakeGrid[0][0] === 20) {
+      this.snakeGrid.forEach(m => {
+        if (m[0] === 20) {
+          m[0] = 0;
+        }
+      });
+      this.Grid[temp[0]][temp[1]].className = "notsnake";
+      return;
     }
 
+    // 自己碰到自己
+    if (this.snakeGrid.length > 8) {
+      var a = this.snakeGrid.filter(
+        m => !this.snakeGrid[0] && m === this.snakeGrid[0]
+      );
+      console.log(a.length, "length");
+    }
     // game over
     if (isEnd) {
+      debugger;
       if (this.snakeTimer) {
         clearInterval(this.snakeTimer);
       }
@@ -198,23 +242,7 @@ Snake.prototype = {
     this.Grid[temp[0]][temp[1]].className = "notsnake"; // not last
     this.Grid[headx][heady].className = "snake_head";
   },
-  isWall(point) {
-    // if (0 < point[0] < this.width - 1 && 0 < point[1] < this.height - 1) {
-    //   return false;
-    // }
-    // return true;
-    if (point instanceof Array) {
-      if (
-        point[0] < 0 ||
-        point[0] > this.width - 1 ||
-        point[1] < 0 ||
-        point[1] > this.height - 1
-      ) {
-        return true;
-      }
-    }
-    return false;
-  },
+
   reset() {
     this.derectkey = 39; //按下的方向键
     this.goX = 0; //蛇横向移动的位移，1或-1

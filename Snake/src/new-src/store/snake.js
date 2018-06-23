@@ -68,12 +68,27 @@ class Snake {
     //刷新食物
     foodsStore.randoms();
     // 判断食物是否在蛇身上
-    if (
-      this.square.filter(
-        m => m[0] === foodsStore.top && m[1] === foodsStore.left
-      )
-    ) {
-      foodsStore.randoms();
+    // if (
+    //   this.square.filter(
+    //     m => m[0] === foodsStore.top && m[1] === foodsStore.left
+    //   )
+    // ) {
+    //   foodsStore.randoms();
+    // }
+    // 判断蛇头是否碰到尾巴
+    // this.square = [[20,20],[30,20],[40,20]]
+    console.log(this.square.length, "length");
+    if (this.square.length > 3) {
+      console.log("竟来了");
+      console.log(
+        "test",
+        this.square[0],
+        this.square.filter(m => m === this.square[0][0]).length
+      );
+      debugger;
+      if (this.square.filter(m => m === this.square[0]).length > 1) {
+        console.log("p !!!!");
+      }
     }
   }
 
